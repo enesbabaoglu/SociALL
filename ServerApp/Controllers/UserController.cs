@@ -12,9 +12,12 @@ namespace ServerApp.Controllers
     public class UserController : ControllerBase
     {
         private UserManager<User> _userManager;
-        public UserController(UserManager<User> userManager)
+        private readonly SignInManager<User> _signInManager;
+
+        public UserController(UserManager<User> userManager,SignInManager<User> signInManager)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         [HttpPost("register")]
@@ -32,6 +35,27 @@ namespace ServerApp.Controllers
                 return Accepted(201);
             }
             return BadRequest(result.Errors);
+
+        }
+        [HttpPost("login")]
+        public async Task<IActionResult> Login (LoginDTO model){
+
+            var user = await _userManager.FindByNameAsync(model.UserName);
+
+            if(user==null){
+               return BadRequest(new {message = "Username is incorrect"});
+            }
+            var result = await _signInManager.CheckPasswordSignInAsync(user,model.Password,false);
+
+            if(result.Succeeded){
+
+                return Ok(new { 
+                    Token = "token",
+                    UserName = model.UserName    
+                });
+
+            }
+            return Unauthorized();
 
         }
         
