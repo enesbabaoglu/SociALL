@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Enes\\Desktop\\Repositories\\SociALL\\ServerApp\\ServerApp.csproj": {}
+    "C:\\Users\\Enes\\Desktop\\Repositories\\SociALL\\serverApp\\ServerApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Enes\\Desktop\\Repositories\\SociALL\\ServerApp\\ServerApp.csproj": {
+    "C:\\Users\\Enes\\Desktop\\Repositories\\SociALL\\serverApp\\ServerApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Enes\\Desktop\\Repositories\\SociALL\\ServerApp\\ServerApp.csproj",
+        "projectUniqueName": "C:\\Users\\Enes\\Desktop\\Repositories\\SociALL\\serverApp\\ServerApp.csproj",
         "projectName": "ServerApp",
-        "projectPath": "C:\\Users\\Enes\\Desktop\\Repositories\\SociALL\\ServerApp\\ServerApp.csproj",
+        "projectPath": "C:\\Users\\Enes\\Desktop\\Repositories\\SociALL\\serverApp\\ServerApp.csproj",
         "packagesPath": "C:\\Users\\Enes\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Enes\\Desktop\\Repositories\\SociALL\\ServerApp\\obj\\",
+        "outputPath": "C:\\Users\\Enes\\Desktop\\Repositories\\SociALL\\serverApp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Enes\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,6 +40,16 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[5.0.5, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[5.0.5, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[5.6.3, )"
