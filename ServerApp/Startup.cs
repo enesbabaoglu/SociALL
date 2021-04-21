@@ -1,12 +1,16 @@
+using DotNet5WebApiExample.Repositories.Concrete;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using ServerApp.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +36,25 @@ namespace ServerApp
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ServerApp", Version = "v1" });
             });
+
+            services.AddDbContext<SociAllContext>(options =>
+                options.UseSqlServer("Data Source=DESKTOP-AJT2GI5; Initial Catalog=SociALLDb;Integrated Security=SSPI;"));
+
+            services.AddIdentity<User,Role>().AddEntityFrameworkStores<SociAllContext>();
+            services.Configure<IdentityOptions>(options => {
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequiredLength = 6;
+
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); // Hesabı 5 dakika kilitle
+                options.Lockout.MaxFailedAccessAttempts=5; // şifre 5 kez yanlış girilirse kilitle 
+                options.Lockout.AllowedForNewUsers=true;
+
+                options.User.AllowedUserNameCharacters="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail =true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,6 +71,7 @@ namespace ServerApp
 
             app.UseRouting();
 
+            app.UseAuthentication(); // Mutlaka authorization ın üzerinde tanımlanmalı
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

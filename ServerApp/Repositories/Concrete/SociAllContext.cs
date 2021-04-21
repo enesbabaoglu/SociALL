@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using ServerApp.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,14 +8,11 @@ using System.Threading.Tasks;
 
 namespace DotNet5WebApiExample.Repositories.Concrete
 {
-    public class SociAllContext : DbContext
+    public class SociAllContext : IdentityDbContext<User,Role,int>
     {
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public SociAllContext(DbContextOptions<SociAllContext> options):base(options)
         {
-        }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
+            
         }
     }
 }
