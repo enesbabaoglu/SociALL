@@ -1,3 +1,4 @@
+using System.Net;
 using System.Text;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -9,9 +10,11 @@ using ServerApp.DTO;
 using ServerApp.Entities;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ServerApp.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class UserController : ControllerBase
@@ -48,6 +51,7 @@ namespace ServerApp.Controllers
 
         }
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(LoginDTO model)
         {
 
