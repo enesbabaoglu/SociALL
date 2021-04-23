@@ -29,11 +29,10 @@ namespace ServerApp
         }
 
         public IConfiguration Configuration { get; }
-
+        readonly string MyAllowOrigins = "_myAllowOrigins";
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -43,18 +42,16 @@ namespace ServerApp
             services.AddDbContext<SociAllContext>(options =>
                 options.UseSqlServer("Data Source=DESKTOP-AJT2GI5; Initial Catalog=SociALLDb;Integrated Security=SSPI;"));
 
-            services.AddCors(options => options.AddDefaultPolicy(
-                builder =>
-                {
-                    builder
-                        //.WithOrigins("http://localhost:4200");
-
-                    //.WithMethods("GET","POST","DELETE") 
-                    .AllowAnyOrigin()
-                    .AllowAnyHeader()
-                    .AllowAnyMethod();
-                }
-                ));
+            services.AddCors(options => {
+                options.AddPolicy(
+                    name: MyAllowOrigins,
+                    builder => {
+                        builder
+                            .WithOrigins("http://localhost:4200")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
 
             services.AddIdentity<User, Role>().AddEntityFrameworkStores<SociAllContext>();
             services.Configure<IdentityOptions>(options =>
@@ -102,10 +99,10 @@ namespace ServerApp
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ServerApp v1"));
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseCors();
+            app.UseCors(MyAllowOrigins);
             app.UseAuthentication(); // Mutlaka authorization ın üzerinde tanımlanmalı
             app.UseAuthorization();
 
