@@ -1,5 +1,5 @@
   
-<div class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+<div class="navbar navbar-expand-lg navbar-dark bg-primary ">
     <div class="container">
       <a href="" class="navbar-brand">SociALL</a>
       <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarToggler">
@@ -8,27 +8,28 @@
 
       <div class="collapse navbar-collapse" id="navbarToggler">
 
-        <ul class="navbar-nav mr-auto">
-          <li class="navbar-nav">
-            <a href="" class="nav-link active">Home</a>
+        <ul *ngIf="loggedIn()" class="navbar-nav mr-auto">
+          <li  class="navbar-nav">
+            <a [routerLink]="['/members']" routerLinkActive="active"  class="nav-link active">Members</a>
           </li>
           <li class="navbar-nav">
-            <a href="" class="nav-link">Users</a>
+            <a [routerLink]="['/friends']" routerLinkActive="active"  class="nav-link">Friends</a>
           </li>
           <li class="navbar-nav">
-            <a href="" class="nav-link">Messages</a>
+            <a [routerLink]="['/messages']" routerLinkActive="active"  class="nav-link">Messages</a>
           </li>
         </ul>
-        <ul class="navbar-nav ml-auto">        
+        
+        <ul *ngIf="loggedIn()" class="navbar-nav ml-auto">        
           <li class="navbar-nav">
             <a href="" class="nav-link">username</a>
           </li>
           <li class="navbar-nav">
-            <a href="" class="nav-link">Logout</a>
+            <a href="" class="nav-link" (click)="logout()">Logout</a>
           </li>
         </ul>
 
-        <form #form="ngForm" class="form-inline mt-2 mt-md-0" (ngSubmit)="login()">
+        <form #form="ngForm" *ngIf="!loggedIn()"  class="form-inline mt-2 mt-md-0 ml-auto" (ngSubmit)="login()">
           <input #username="ngModel" class="form-control form-control-sm mr-sm-2" required type="text" name="username" placeholder="Username" [(ngModel)]="model.username">
           <input #password="ngModel" class="form-control form-control-sm mr-sm-2" required minlength="6" type="password" name="password" placeholder="Password" [(ngModel)]="model.password">
           <button [disabled]="form.invalid" class="btn btn-success btn-sm my-2 my-sm-0" type="submit">Login</button>
@@ -37,19 +38,4 @@
     </div>
 
     </div>
-  </div>
-
-  <div style="margin-top: 120px;">
-    <p>form valid: {{ form.valid }}</p>
-    <p>form invalid: {{ form.invalid }}</p>
-    <p>form touched: {{ form.touched }}</p>
-    <p>form dirty: {{ form.dirty }}</p>
-    <br>
-    <p>username valid: {{ username.valid }}</p>
-    <p>username invalid: {{ username.invalid }}</p>
-    <p>username touched: {{ username.touched }}</p>
-    <p>username dirty: {{ username.dirty }}</p>
-    <br>
-    <p>password valid: {{ password.valid }}</p>
-    <p>password invalid: {{ password.invalid }}</p>
   </div>

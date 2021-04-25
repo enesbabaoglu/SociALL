@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {map} from 'rxjs/operators'
 
@@ -19,5 +19,23 @@ export class AuthService {
         }
       })
     )
+  }
+
+  tokenType  = 'Bearer ';
+  register(model: any){
+    const header = new HttpHeaders().set('Authorization', this.tokenType + localStorage.getItem('token'));
+    const headers = { headers: header };
+    return this.http.post(this.baseUrl+'register',model,headers).pipe(
+      map((response:any)=> {
+        const result=response
+        if(result){
+          console.log("Kayıt başarılı.")
+        }
+      })
+    )
+  }
+
+  loggedIn(){
+   return localStorage.getItem("token")?true : false;
   }
 }
