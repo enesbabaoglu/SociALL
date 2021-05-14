@@ -54,13 +54,16 @@ namespace ServerApp.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginDTO model)
         {
+            if(!ModelState.IsValid){
+                return BadRequest(ModelState);
+            }
+            
 
             var user = await _userManager.FindByNameAsync(model.UserName);
 
             if (user == null)
-            {
                 return BadRequest(new { message = "Username is incorrect" });
-            }
+            
             var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
 
             if (result.Succeeded)

@@ -1,3 +1,4 @@
+using System.Net;
 using DotNet5WebApiExample.Repositories.Concrete;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -18,6 +19,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
 
 namespace ServerApp
 {
@@ -97,6 +100,24 @@ namespace ServerApp
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ServerApp v1"));
+            }
+            else{
+                app.UseExceptionHandler(appError => {
+                    
+                    appError.Run(async context => {
+                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                        context.Response.ContentType = "application/json";
+
+                        var exception = context.Features.Get<IExceptionHandlerFeature>();
+
+                        if(exception != null){
+                            await context.Response.WriteAsync(new ErrorDetails(){
+                                StatusCode = context.Response.StatusCode,
+                                Message = exception.Error.Message 
+                            }.ToString());
+                        }
+                    });
+                });
             }
 
             // app.UseHttpsRedirection();
