@@ -16,7 +16,6 @@ namespace ServerApp.Entities
       public string Country { get; set; }
       public string Introduction { get; set; }
       public string Hobbies { get; set; }
-
-      public List<Image> Images { get; set; }
+      public virtual List<Image> Images { get; set; }
     }
 }

@@ -1,47 +1,50 @@
-﻿// using DotNet5WebApiExample.Repositories.Abstract;
-// using Microsoft.EntityFrameworkCore;
-// using System;
-// using System.Collections.Generic;
-// using System.Linq;
-// using System.Threading.Tasks;
+﻿using DotNet5WebApiExample.Repositories.Abstract;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
-// namespace DotNet5WebApiExample.Repositories.Concrete
-// {
-//     public class GenericRepository<Tentity> : IGenericRepository<Tentity>
-//     where Tentity : class
-//     {
-//         public GenericRepository() {}
-//         public void Create(Tentity entity)
-//         {
-//             using var db = new SociAllContext();
-//             db.Set<Tentity>().Add(entity);
-//             db.SaveChanges();
-//         }
-//         public void Delete(Tentity entity)
-//         {
-//             using var db = new SociAllContext();
-//             db.Set<Tentity>().Remove(entity);
-//                 db.SaveChanges();
-            
-//         }
+namespace DotNet5WebApiExample.Repositories.Concrete
+{
+    public class GenericRepository<T> : IGenericRepository<T>
+    where T : class
+    {
+        SociAllContext _sociAllContext;
+        DbSet<T> _dbSet;
+        public GenericRepository(SociAllContext sociAllContext)
+        {
 
-//         public List<Tentity> GetAll()
-//         {
-//             using var db = new SociAllContext();
-//             return db.Set<Tentity>().ToList();
-//         }
+            _sociAllContext = sociAllContext;
+            _dbSet = _sociAllContext.Set<T>();
 
-//         public Tentity GetById(int id)
-//         {
-//             using var db = new SociAllContext();
-//             return db.Set<Tentity>().Find(id);
-//         }
+        }
+        public void Create(T entity)
+        {
+            _dbSet.Add(entity);
+            _sociAllContext.SaveChanges();
+        }
+        public void Delete(T entity)
+        {
+            _dbSet.Remove(entity);
+            _sociAllContext.SaveChanges();
+        }
 
-//         public void Update(Tentity entity)
-//         {
-//             using var db = new SociAllContext();
-//             db.Entry(entity).State = EntityState.Modified;
-//             db.SaveChanges();
-//         }
-//     }
-// }
+        public List<T> GetAll(Expression<Func<T, bool>> predicate)
+        {
+            return _dbSet.Where(predicate).ToList();
+        }
+
+        public T Get(Expression<Func<T, bool>> predicate)
+        {
+            return _dbSet.FirstOrDefault(predicate);
+        }
+
+        public void Update(T entity)
+        {
+            _sociAllContext.Entry(entity).State = EntityState.Modified;
+            _sociAllContext.SaveChanges();
+        }
+    }
+}
