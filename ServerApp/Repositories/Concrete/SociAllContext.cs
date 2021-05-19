@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DotNet5WebApiExample.Repositories.Concrete
+namespace ServerApp.Repositories.Concrete
 {
     public class SociAllContext : IdentityDbContext<User,Role,int>
     {

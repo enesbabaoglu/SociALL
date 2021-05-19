@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace DotNet5WebApiExample.Repositories.Abstract
+namespace ServerApp.Repositories.Abstract
 {
     public interface IGenericRepository<T>
     {

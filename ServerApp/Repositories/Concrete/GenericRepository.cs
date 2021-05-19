@@ -1,12 +1,13 @@
-﻿using DotNet5WebApiExample.Repositories.Abstract;
+﻿
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
+using ServerApp.Repositories.Concrete;
+using ServerApp.Repositories.Abstract;
 
-namespace DotNet5WebApiExample.Repositories.Concrete
+namespace ServerApp.Repositories.Concrete
 {
     public class GenericRepository<T> : IGenericRepository<T>
     where T : class
