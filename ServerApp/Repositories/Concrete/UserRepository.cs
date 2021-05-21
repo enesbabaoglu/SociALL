@@ -13,12 +13,8 @@ namespace ServerApp.Repositories.Concrete
         SociAllContext _sociAllContext;
         DbSet<User> _dbSet;
         public UserRepository(SociAllContext sociAllContext) : base(sociAllContext){
+            _sociAllContext=sociAllContext;
+            _dbSet=_sociAllContext.Set<User>();
         }
-
-        // public new virtual List<User> GetAll(Expression<Func<User, bool>> predicate){
-
-        //     return _dbSet.Where(predicate).Include(i => i.Images).ToList();
-            
-        // }
     }
 }

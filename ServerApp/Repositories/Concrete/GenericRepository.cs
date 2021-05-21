@@ -6,6 +6,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using ServerApp.Repositories.Concrete;
 using ServerApp.Repositories.Abstract;
+using System.Threading.Tasks;
+using System.Collections;
 
 namespace ServerApp.Repositories.Concrete
 {
@@ -32,10 +34,10 @@ namespace ServerApp.Repositories.Concrete
             _sociAllContext.SaveChanges();
         }
 
-        public List<T> GetAll(Expression<Func<T, bool>> predicate)
-        {
-            return _dbSet.Where(predicate).ToList();
-        }
+        // public virtual List<T> GetAll()
+        // {
+        //     return _dbSet.ToList();
+        // }
 
         public T Get(Expression<Func<T, bool>> predicate)
         {
@@ -46,6 +48,23 @@ namespace ServerApp.Repositories.Concrete
         {
             _sociAllContext.Entry(entity).State = EntityState.Modified;
             _sociAllContext.SaveChanges();
+        }
+
+        public IQueryable<T> GetAll(Expression<Func<T, bool>> predicate)
+        {
+            var result = predicate ==null ?  _dbSet: _dbSet.Where(predicate);
+
+            return result;
+        }
+         public IQueryable<T> GetAllWithIncludes(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes)
+        {
+            var query = predicate == null ? _dbSet : _dbSet.Where(predicate);
+            return includes.Aggregate(query, (current, includeProperty) => current.Include(includeProperty));
+        }
+        public T GetWithIncludes(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes)
+        {
+            var query = _dbSet.Where(predicate);
+            return includes.Aggregate(query, (current, includeProperty) => current.Include(includeProperty)).FirstOrDefault();
         }
     }
 }

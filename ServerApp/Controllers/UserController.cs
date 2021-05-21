@@ -1,16 +1,11 @@
-using System.Net;
-using System.Text;
 using System;
-using System.IdentityModel.Tokens.Jwt;
+using System.Security.Cryptography.X509Certificates;
+using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using ServerApp.DTO;
-using ServerApp.Entities;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using ServerApp.Repositories.Abstract;
 
 namespace ServerApp.Controllers
 {
@@ -19,82 +14,24 @@ namespace ServerApp.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        private UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
-        private readonly IConfiguration _configuration;
+        private readonly IUserRepository _userRepository;
 
-        public UserController(UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration configuration)
+        public UserController(IUserRepository userRepository)
         {
-            _configuration = configuration;
-            _userManager = userManager;
-            _signInManager = signInManager;
+            _userRepository = userRepository;
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register(UserForRegisterDTO model)
+        [HttpGet]
+        public IActionResult GetUsers()
         {
-
-            var user = new User
-            {
-                UserName = model.UserName,
-                Email = model.Email,
-                Name = model.Name,
-                Gender = model.Gender,
-                Created = DateTime.Now
-            };
-            var result = await _userManager.CreateAsync(user, model.Password);
-            if (result.Succeeded)
-            {
-                return Accepted(201);
-            }
-            return BadRequest(result.Errors);
-
+            var users = _userRepository.GetAllWithIncludes(null,x => x.Images).ToList();
+            return Ok(users);
         }
-        [HttpPost("login")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Login(LoginDTO model)
+        [HttpGet("{id}")]
+        public IActionResult GetUser(int id)
         {
-            if(!ModelState.IsValid){
-                return BadRequest(ModelState);
-            }
-            
-
-            var user = await _userManager.FindByNameAsync(model.UserName);
-
-            if (user == null)
-                return BadRequest(new { message = "Username is incorrect" });
-            
-            var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
-
-            if (result.Succeeded)
-            {
-
-                return Ok(new
-                {
-                    Token = GenerateJwtToken(user),
-                });
-
-            }
-            return Unauthorized();
-
-        }
-
-        private string GenerateJwtToken(User user)
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key =Encoding.ASCII.GetBytes(_configuration.GetSection("AppSettings:Secrets").Value);
-
-            var tokenDescriptor = new SecurityTokenDescriptor{
-                Subject = new ClaimsIdentity(new Claim[]{
-                    new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
-                    new Claim(ClaimTypes.Name,user.UserName)
-                }),
-                Expires=DateTime.UtcNow.AddDays(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),SecurityAlgorithms.HmacSha256Signature) 
-            };
-
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            var user = _userRepository.GetWithIncludes(x => x.Id == id,x => x.Images);
+            return Ok(user);
         }
     }
 }
