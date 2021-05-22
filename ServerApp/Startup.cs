@@ -44,6 +44,7 @@ namespace ServerApp
             services.AddDbContext<SociAllContext>(options =>
                 options.UseSqlServer("Data Source=DESKTOP-AJT2GI5; Initial Catalog=SociALLDb;Integrated Security=SSPI;"));
 
+            services.AddAutoMapper(typeof(Startup));
             services.AddCors(options => {
                 options.AddPolicy(
                     name: MyAllowOrigins,
