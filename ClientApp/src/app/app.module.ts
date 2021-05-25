@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { JwtModule } from "@auth0/angular-jwt";
 import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,6 +17,9 @@ import { appRoutes } from './routes';
 import { AuthGuard } from './_guards/auth-guard';
 import { ErrorIntercaptor } from './_services/error.intercaptor';
 
+export function tokenGetter(){
+  return localStorage.getItem("token");
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,6 +36,13 @@ import { ErrorIntercaptor } from './_services/error.intercaptor';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ["localhost:5000"],
+        disallowedRoutes: ["localhost:5000/api/auth"],
+      },
+    }),
     RouterModule.forRoot(appRoutes)
   ],
   providers: [AuthGuard,{

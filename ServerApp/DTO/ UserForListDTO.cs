@@ -15,6 +15,6 @@ namespace ServerApp.DTO
         public DateTime LastActive { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
-        public ImageForDetailsDTO Images { get; set; }
+        public ImageForDetailsDTO Image { get; set; }
     }
 }

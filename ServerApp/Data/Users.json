@@ -168,7 +168,7 @@
         "Country": "Yemen",
         "Images": [
         {
-            "Name": "https://randomuser.me/api/portraits/male/90.jpg",
+            "Name": "https://randomuser.me/api/portraits/men/90.jpg",
             "DateAdded": "2020-05-27",
             "IsProfile": true,
             "Description": "Tempor duis qui minim qui aliquip ullamco enim."
@@ -190,7 +190,7 @@
         "Country": "Djibouti",
         "Images": [
         {
-            "Name": "https://randomuser.me/api/portraits/male/49.jpg",
+            "Name": "https://randomuser.me/api/portraits/men/49.jpg",
             "DateAdded": "2019-02-04",
             "IsProfile": true,
             "Description": "Occaecat magna sint amet deserunt qui ea nostrud commodo ad tempor esse mollit est."
@@ -212,7 +212,7 @@
         "Country": "Viet Nam",
         "Images": [
         {
-            "Name": "https://randomuser.me/api/portraits/male/56.jpg",
+            "Name": "https://randomuser.me/api/portraits/men/56.jpg",
             "DateAdded": "2019-03-19",
             "IsProfile": true,
             "Description": "Anim in commodo irure ex nulla anim."
@@ -234,7 +234,7 @@
         "Country": "Costa Rica",
         "Images": [
         {
-            "Name": "https://randomuser.me/api/portraits/male/67.jpg",
+            "Name": "https://randomuser.me/api/portraits/men/67.jpg",
             "DateAdded": "2020-03-28",
             "IsProfile": true,
             "Description": "Nisi fugiat voluptate nulla ipsum aliquip enim nulla magna consequat exercitation sit."
@@ -256,7 +256,7 @@
         "Country": "France",
         "Images": [
         {
-            "Name": "https://randomuser.me/api/portraits/male/32.jpg",
+            "Name": "https://randomuser.me/api/portraits/men/32.jpg",
             "DateAdded": "2020-06-26",
             "IsProfile": true,
             "Description": "Ea sit non adipisicing fugiat cillum culpa nisi officia mollit ea elit laboris sint."
@@ -278,7 +278,7 @@
         "Country": "Antigua and Barbuda",
         "Images": [
         {
-            "Name": "https://randomuser.me/api/portraits/male/29.jpg",
+            "Name": "https://randomuser.me/api/portraits/men/29.jpg",
             "DateAdded": "2020-01-22",
             "IsProfile": true,
             "Description": "Cupidatat duis ad magna velit occaecat tempor ex voluptate."
@@ -300,7 +300,7 @@
         "Country": "Iran",
         "Images": [
         {
-            "Name": "https://randomuser.me/api/portraits/male/68.jpg",
+            "Name": "https://randomuser.me/api/portraits/men/68.jpg",
             "DateAdded": "2020-05-24",
             "IsProfile": true,
             "Description": "Eu minim ullamco ipsum ad id magna elit laboris."
