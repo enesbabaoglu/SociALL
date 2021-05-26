@@ -13,5 +13,6 @@ export class User {
     country!: string;
     introduction!: string;
     hobbies!: string;
-    image!: image;
+    profileImageUrl!: string;
+    images!: image[];
 }

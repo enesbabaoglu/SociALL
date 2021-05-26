@@ -4,7 +4,7 @@
             <div *ngFor="let user of users" class="col-lg-3 col-md-4 col-sm-6 col-12">
                 <div class="user_profile_info">
                     <div class="user-up-info">
-                        <img src="{{ user.image.name}}" alt="">
+                        <img src="{{ user.images[0].name }}" alt="">
                         <h3>{{ user.name }}, <small>{{ user.age }}</small></h3>
                         <h4 style="height: 20px;">{{ user.country }}, {{ user.city }}</h4>
                         <button class="btn btn-outline-primary btn-sm">
@@ -12,7 +12,7 @@
                             Arkadaş Ekle
                         </button>
                     </div>
-                    <a href="#" class="view-more">View Profile</a>
+                    <a [routerLink]="['/members/', user.id]" class="view-more">View Profile</a>
                 </div>
             </div>
         </div>

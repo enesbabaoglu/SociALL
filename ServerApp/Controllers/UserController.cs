@@ -34,7 +34,7 @@ namespace ServerApp.Controllers
         public IActionResult GetUser(int id)
         {
             var user = _userRepository.GetWithIncludes(x => x.Id == id, x => x.Images);
-            var result = _mapper.Map<IEnumerable<UserForListDTO>>(user);
+            var result = _mapper.Map<UserForDetailsDTO>(user);
 
             return Ok(result);
         }

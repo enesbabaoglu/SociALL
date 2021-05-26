@@ -2,7 +2,7 @@ using System;
 
 namespace ServerApp.DTO
 {
-    public class ImageForDetailsDTO
+    public class ImageForDetails
     {
        public int Id { get; set; }
         public string Name { get; set; }

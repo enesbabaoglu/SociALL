@@ -17,6 +17,7 @@ namespace ServerApp.DTO
         public string Hobbies { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
-        public List<Image> Images { get; set; }
+        public string ProfileImageUrl { get; set; }
+        public List<ImageForDetails> Images { get; set; }
     }
 }
