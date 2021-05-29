@@ -18,6 +18,8 @@ import { AuthGuard } from './_guards/auth-guard';
 import { ErrorIntercaptor } from './_services/error.intercaptor';
 import { MemberDetailsComponent } from './members/member-details/member-details.component';
 import { PhotoGalleryComponent } from './photo-gallery/photo-gallery.component';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
+import { MemberEditResolver } from './_resolver/member-edit.resolver';
 
 export function tokenGetter(){
   return localStorage.getItem("token");
@@ -33,7 +35,8 @@ export function tokenGetter(){
     NotfoundComponent,
     MessageComponent,
     MemberDetailsComponent,
-    PhotoGalleryComponent
+    PhotoGalleryComponent,
+    MemberEditComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +56,8 @@ export function tokenGetter(){
     provide:HTTP_INTERCEPTORS,
     useClass : ErrorIntercaptor,
     multi:true
-  }],
+  },
+  MemberEditResolver],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

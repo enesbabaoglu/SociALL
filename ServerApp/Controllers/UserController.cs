@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
@@ -37,6 +38,24 @@ namespace ServerApp.Controllers
             var result = _mapper.Map<UserForDetailsDTO>(user);
 
             return Ok(result);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Update(int id , UserForUpdateDTO dto){
+
+            if(id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return BadRequest("Not Valid Request");
+            
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var user = _userRepository.Get(x => x.Id == id);
+
+            _mapper.Map(dto,user);
+
+            _userRepository.Update(user); 
+
+            return Ok();
         }
     }
 }
