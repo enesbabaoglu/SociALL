@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using ServerApp.Repositories.Abstract;
 using AutoMapper;
 using ServerApp.DTO;
+using ServerApp.Helpers;
 
 namespace ServerApp.Controllers
 {
+    [ServiceFilter(typeof(LastActiveActionFilter))]
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]

@@ -11,12 +11,13 @@ using ServerApp.Entities;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
-
+using ServerApp.Helpers;
 namespace ServerApp.Controllers
 {
     
     [ApiController]
     [Route("api/[controller]")]
+    
     public class AuthController : ControllerBase
     {
         private UserManager<User> _userManager;

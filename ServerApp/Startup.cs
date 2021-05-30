@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Http;
 using ServerApp.Data;
 using ServerApp.Repositories.Abstract;
 using ServerApp.Repositories.Concrete;
+using ServerApp.Helpers;
 
 namespace ServerApp
 {
@@ -73,6 +74,7 @@ namespace ServerApp
                 options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = true;
             });
+            services.AddScoped<LastActiveActionFilter>();
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
