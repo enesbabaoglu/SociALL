@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ServerApp.Controllers
 {
-    [Authorize]
+    
     [ApiController]
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
@@ -32,16 +32,19 @@ namespace ServerApp.Controllers
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDTO model)
-        {
-
-            var user = new User
-            {
+        {    
+            var user = new User {
                 UserName = model.UserName,
                 Email = model.Email,
                 Name = model.Name,
                 Gender = model.Gender,
-                Created = DateTime.Now
+                DateOfBirth = model.DateOfBirth,
+                Country = model.Country,
+                City = model.City,
+                Created = DateTime.Now,
+                LastActive = DateTime.Now
             };
+            
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {

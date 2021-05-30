@@ -28,16 +28,7 @@ export class AuthService {
 
   tokenType  = 'Bearer ';
   register(model: any){
-    const header = new HttpHeaders().set('Authorization', this.tokenType + AuthService.getToken());
-    const headers = { headers: header };
-    return this.http.post(this.baseUrl+'register',model,headers).pipe(
-      map((response:any)=> {
-        const result=response
-        if(result){
-          console.log("Kayıt başarılı.")
-        }
-      })
-    )
+    return this.http.post(this.baseUrl + 'register',model);
   }
    public static  getToken() {
     return localStorage.getItem("token")?.toString();

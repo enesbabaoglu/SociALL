@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { AlertifyService } from '../_services/alertify.service';
 import { AuthService } from '../_services/auth.service';
 
 @Component({
@@ -10,16 +12,21 @@ import { AuthService } from '../_services/auth.service';
 export class RegisterComponent implements OnInit {
 
   model: any = {};
-  constructor(private authService : AuthService) { }
+  constructor(private authService : AuthService,
+    private alertify : AlertifyService,
+    private route :Router) { }
 
   ngOnInit(): void {
   }
 
   register(){
     this.authService.register(this.model).subscribe(result => {
-      console.log("Okey");
+      this.alertify.success("Kayıt Başarılı :)");
+      this.authService.login(this.model).subscribe(result => {
+        this.route.navigate(["/members"]);
+      })
     },error => {
-      console.log("hata");
+      this.alertify.error("Kayıt Başarısız : " + error);
     });
   }
 }

@@ -10,8 +10,8 @@ namespace ServerApp.Helpers
         public MapperProfiles()
         {
             CreateMap<User,UserForListDTO>()
-                .ForMember(dest => dest.Images,opt => 
-                    opt.MapFrom(src => src.Images.Where(i => i.IsProfile)))
+                .ForMember(dest => dest.ImageUrl,opt => 
+                    opt.MapFrom(src => src.Images.FirstOrDefault(i => i.IsProfile).Name))
                 .ForMember(dest => dest.Age,opt => opt.MapFrom(src => src.DateOfBirth.CalculateAge()));
             
             CreateMap<User,UserForDetailsDTO>()

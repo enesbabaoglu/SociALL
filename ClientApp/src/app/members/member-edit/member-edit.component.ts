@@ -14,11 +14,21 @@ export class MemberEditComponent implements OnInit {
 
   user: User = new User;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute,private userService : UserService,
+     private authService : AuthService ,
+      private alertify : AlertifyService) { }
 
   ngOnInit(): void {
     this.route.data.subscribe(data=> {
       this.user = data.user;
     })
+  }
+
+  updateUser(){
+    this.userService.updateUser(this.authService.decodedToken.nameid,this.user).subscribe(result => {
+      this.alertify.success("Güncelleme Başarılı :)");
+    },err => {
+      this.alertify.error ("Güncelleme hatası : " + err);
+    });
   }
 }

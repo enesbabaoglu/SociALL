@@ -41,19 +41,20 @@ namespace ServerApp.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id , UserForUpdateDTO dto){
-
-            if(id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
-                return BadRequest("Not Valid Request");
+        public IActionResult Update(int id, UserForUpdateDTO dto)
+        {
             
-            if(!ModelState.IsValid)
+            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return BadRequest("Not Valid Request");
+
+            if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             var user = _userRepository.Get(x => x.Id == id);
 
-            _mapper.Map(dto,user);
+            _mapper.Map(dto, user);
 
-            _userRepository.Update(user); 
+            _userRepository.Update(user);
 
             return Ok();
         }
