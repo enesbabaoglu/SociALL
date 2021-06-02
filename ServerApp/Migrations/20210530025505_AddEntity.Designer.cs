@@ -10,8 +10,8 @@ using ServerApp.Repositories.Concrete;
 namespace ServerApp.Migrations
 {
     [DbContext(typeof(SociAllContext))]
-    [Migration("20210514180516_AddNewEntity")]
-    partial class AddNewEntity
+    [Migration("20210530025505_AddEntity")]
+    partial class AddEntity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -148,7 +148,7 @@ namespace ServerApp.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Image");
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("ServerApp.Entities.Role", b =>
@@ -274,6 +274,21 @@ namespace ServerApp.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("ServerApp.Entities.UserToUser", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FollowerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "FollowerId");
+
+                    b.HasIndex("FollowerId");
+
+                    b.ToTable("UserToUser");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("ServerApp.Entities.Role", null)
@@ -336,8 +351,31 @@ namespace ServerApp.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("ServerApp.Entities.UserToUser", b =>
+                {
+                    b.HasOne("ServerApp.Entities.User", "Follower")
+                        .WithMany("Following")
+                        .HasForeignKey("FollowerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ServerApp.Entities.User", "User")
+                        .WithMany("Followers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Follower");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("ServerApp.Entities.User", b =>
                 {
+                    b.Navigation("Followers");
+
+                    b.Navigation("Following");
+
                     b.Navigation("Images");
                 });
 #pragma warning restore 612, 618

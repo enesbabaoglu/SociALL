@@ -59,6 +59,7 @@ namespace ServerApp
 
             services.AddIdentity<User, Role>().AddEntityFrameworkStores<SociAllContext>();
             services.AddScoped<IUserRepository,UserRepository>();
+            services.AddScoped<IUserToUserRepository,UserToUserRepository>();
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireDigit = true;
@@ -74,7 +75,7 @@ namespace ServerApp
                 options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = true;
             });
-            services.AddScoped<LastActiveActionFilter>();
+            
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -92,6 +93,7 @@ namespace ServerApp
                     ValidateAudience = false
                 };
             });
+            services.AddScoped<LastActiveActionFilter>();
         }
 
 

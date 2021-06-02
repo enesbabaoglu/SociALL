@@ -7,6 +7,9 @@ export class ErrorIntercaptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
         return next.handle(req).pipe(catchError((error: HttpErrorResponse) => {
+            if(error.error){
+                return throwError(error.error);
+            }
             if (error.status === 400) {
                 if(error.error.errors){
                     console.log(error);

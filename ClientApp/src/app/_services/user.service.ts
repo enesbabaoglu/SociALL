@@ -8,18 +8,24 @@ import { User } from '../_models/user';
 })
 export class UserService {
 
-  baseUrl : string = "http://localhost:5000/api/User/";
+  baseUrl: string = "http://localhost:5000/api/User/";
 
-  constructor(private http : HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  getUsers() : Observable<User[]>{
+  getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.baseUrl);
   }
-  getUser(id : number) : Observable<User>{
+  getUser(id: number): Observable<User> {
     return this.http.get<User>(this.baseUrl + id);
   }
 
-  updateUser(id : number,user: User){
-    return this.http.put(this.baseUrl+ id ,user);
+  updateUser(id: number, user: User) {
+    return this.http.put(this.baseUrl + id, user);
+  }
+  followUser(followerId: number, userId: number) {
+    return this.http.post(this.baseUrl + followerId + '/follow/' + userId, {});
+  }
+  isFollowedUser(followerId: number, userId: number) {
+    return this.http.get(this.baseUrl + followerId + '/isFollowedUser/' + userId, {});
   }
 }
