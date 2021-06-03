@@ -7,7 +7,7 @@ import { MemberListComponent } from "./members/member-list/member-list.component
 import { MessageComponent } from "./message/message.component";
 import { NotfoundComponent } from "./notfound/notfound.component";
 import { AuthGuard } from "./_guards/auth-guard";
-import { MemberDetailsResolver } from "./_resolver/member-Details.resolver";
+import { MemberDetailsResolver } from "./_resolver/member-details.resolver";
 import { MemberEditResolver } from "./_resolver/member-edit.resolver";
 
 export const appRoutes: Routes = [

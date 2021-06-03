@@ -30,26 +30,28 @@ namespace ServerApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetUsers([FromQuery]UserQueryParams userQueryParams)
+        public IActionResult GetUsers([FromQuery] UserQueryParams userQueryParams)
         {
-            userQueryParams.UserId= int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            var users = _userRepository.GetAllWithIncludes(x=>x.Id != userQueryParams.UserId, x => x.Images);
-            var user= _userRepository.GetWithIncludes(x=>x.Id == userQueryParams.UserId, x => x.Images,x => x.Followers,x => x.Following);
+            userQueryParams.UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var users = _userRepository.GetAllWithIncludes(x => x.Id != userQueryParams.UserId, x => x.Images);
+            var user = _userRepository.GetWithIncludes(x => x.Id == userQueryParams.UserId, x => x.Images, x => x.Followers, x => x.Following);
 
-            if(userQueryParams.Followers){  
-                var list = user.Followers.Select(x=> x.FollowerId);
+            if (userQueryParams.Followers)
+            {
+                var list = user.Followers.Select(x => x.FollowerId);
                 users = users.Where(u => list.Contains(u.Id));
             }
 
-            if(userQueryParams.Followings){  
-                var list = user.Following.Select(x=> x.UserId);
+            if (userQueryParams.Followings)
+            {
+                var list = user.Following.Select(x => x.UserId);
                 users = users.Where(u => list.Contains(u.Id));
             }
-         
+
             var result = _mapper.Map<IEnumerable<UserForListDTO>>(users);
             return Ok(result);
         }
-        
+
         [HttpGet("{id}")]
         public IActionResult GetUser(int id)
         {

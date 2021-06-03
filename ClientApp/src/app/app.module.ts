@@ -21,7 +21,7 @@ import { PhotoGalleryComponent } from './photo-gallery/photo-gallery.component';
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { MemberEditResolver } from './_resolver/member-edit.resolver';
 import { TimeagoModule } from 'ngx-timeago';
-import { MemberDetailsResolver } from './_resolver/member-Details.resolver';
+import { MemberDetailsResolver } from './_resolver/member-details.resolver';
 
 export function tokenGetter(){
   return localStorage.getItem("token");

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { AuthService } from 'src/app/_services/auth.service';
 import { User } from '../../_models/user';
 import { AlertifyService } from '../../_services/alertify.service';
 import { UserService } from '../../_services/user.service';
@@ -11,10 +13,12 @@ import { UserService } from '../../_services/user.service';
 export class MemberListComponent implements OnInit {
 
   
-  constructor(private userService : UserService, private alertify : AlertifyService) { }
+  followText! : string  ;
+  constructor(private userService : UserService, private alertify : AlertifyService,private authService : AuthService) { }
   users! : User[];
   ngOnInit(): void {
     this.getUser();
+    
   }
 
   getUser(){
@@ -23,5 +27,21 @@ export class MemberListComponent implements OnInit {
     },err =>{
       this.alertify.error(err);
     })
+  }
+  isFollowedUser(userId: any){
+   let text : string ;
+   var subject = new Subject<string>();
+    this.userService.isFollowedUser(this.authService.decodedToken.nameid, userId).subscribe(result => {
+      if(result) {
+        text= "Takip ediliyor" ;
+      }
+      else{
+        text="Takip Et";
+      } 
+      subject.next(text);
+    }, err => {
+       this.alertify.error(err);
+    });
+    return subject.pipe();
   }
 }
