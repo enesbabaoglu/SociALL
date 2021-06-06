@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from "@angular/router";
-import { empty, EmptyError, Observable, of } from "rxjs";
+import {  EmptyError, Observable, of } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { User } from "../_models/user";
 import { AlertifyService } from "../_services/alertify.service";
@@ -23,6 +23,7 @@ export class MemberDetailsResolver implements Resolve<User> {
 
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): User | Observable<User> | Promise<User> {
+        debugger;
         return this.UserService.getUser(route.params['id']).pipe(catchError(error => {
             this.alertifyService.error("server error");
             this.Route.navigate(['/members']);

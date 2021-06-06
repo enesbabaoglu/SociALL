@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { JwtModule } from "@auth0/angular-jwt";
-import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http'
+import { JwtModule } from '@auth0/angular-jwt';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -22,9 +22,28 @@ import { MemberEditComponent } from './members/member-edit/member-edit.component
 import { MemberEditResolver } from './_resolver/member-edit.resolver';
 import { TimeagoModule } from 'ngx-timeago';
 import { MemberDetailsResolver } from './_resolver/member-details.resolver';
+import {
+  NgxLoadingXConfig,
+  NgxLoadingXModule,
+  POSITION,
+  SPINNER,
+} from 'ngx-loading-x';
 
-export function tokenGetter(){
-  return localStorage.getItem("token");
+const ngxLoadingXConfig: NgxLoadingXConfig = {
+  show: false,
+  bgBlur: 2,
+  bgOpacity: 5,
+  bgLogoUrl: '',
+  bgLogoUrlPosition: POSITION.topLeft,
+  bgLogoUrlSize: 100,
+  spinnerType: SPINNER.wanderingCubes,
+  spinnerSize: 120,
+  spinnerColor: '#dd0031',
+  spinnerPosition: POSITION.centerCenter,
+};
+
+export function tokenGetter() {
+  return localStorage.getItem('token');
 }
 @NgModule({
   declarations: [
@@ -38,10 +57,11 @@ export function tokenGetter(){
     MessageComponent,
     MemberDetailsComponent,
     PhotoGalleryComponent,
-    MemberEditComponent
+    MemberEditComponent,
   ],
   imports: [
     BrowserModule,
+    NgxLoadingXModule.forRoot(ngxLoadingXConfig),
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
@@ -49,19 +69,22 @@ export function tokenGetter(){
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        allowedDomains: ["localhost:5000"],
-        disallowedRoutes: ["localhost:5000/api/auth"],
+        allowedDomains: ['localhost:5000'],
+        disallowedRoutes: ['localhost:5000/api/auth'],
       },
     }),
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
   ],
-  providers: [AuthGuard,{
-    provide:HTTP_INTERCEPTORS,
-    useClass : ErrorIntercaptor,
-    multi:true
-  },
-  MemberEditResolver,
-  MemberDetailsResolver],
-  bootstrap: [AppComponent]
+  providers: [
+    AuthGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorIntercaptor,
+      multi: true,
+    },
+    MemberEditResolver,
+    MemberDetailsResolver,
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

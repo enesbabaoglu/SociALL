@@ -15,7 +15,6 @@ export const appRoutes: Routes = [
     { path: 'members', component: MemberListComponent, canActivate: [AuthGuard] },
     { path: 'member/edit', component: MemberEditComponent,resolve:{user : MemberEditResolver}, canActivate: [AuthGuard] },
     { path: 'members/:id', component: MemberDetailsComponent,resolve:{user : MemberDetailsResolver}, canActivate: [AuthGuard] },
-    { path: 'members/:id', component: MemberDetailsComponent, canActivate: [AuthGuard] },
     { path: 'friends', component: FriendListComponent, canActivate: [AuthGuard] },
     { path: 'home', component: HomeComponent},
     { path: 'messages', component: MessageComponent ,canActivate: [AuthGuard]},

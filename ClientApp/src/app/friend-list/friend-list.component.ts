@@ -11,7 +11,7 @@ import { UserService } from '../_services/user.service';
 export class FriendListComponent implements OnInit {
   users: User[] | undefined;
   followParams: string = "followings";
-
+  loading=false;
   constructor(private userService: UserService, 
     private alertify: AlertifyService) { }
 
@@ -20,9 +20,12 @@ export class FriendListComponent implements OnInit {
   }
 
   getUsers() {
+    this.loading=true;
     this.userService.getUsers(this.followParams.toString()).subscribe(users => {
+      this.loading=false;
       this.users = users;
     }, err => {
+      this.loading=false;
       this.alertify.error(err);
     })
   }

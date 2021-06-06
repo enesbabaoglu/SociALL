@@ -9,6 +9,7 @@ using ServerApp.DTO;
 using ServerApp.Helpers;
 using System;
 using ServerApp.Entities;
+using System.Threading.Tasks;
 
 namespace ServerApp.Controllers
 {
@@ -30,7 +31,7 @@ namespace ServerApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetUsers([FromQuery] UserQueryParams userQueryParams)
+        public async Task<IActionResult> GetUsers([FromQuery] UserQueryParams userQueryParams)
         {
             userQueryParams.UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             var users = _userRepository.GetAllWithIncludes(x => x.Id != userQueryParams.UserId, x => x.Images);
@@ -47,8 +48,30 @@ namespace ServerApp.Controllers
                 var list = user.Following.Select(x => x.UserId);
                 users = users.Where(u => list.Contains(u.Id));
             }
+            if(!string.IsNullOrEmpty(userQueryParams.Gender)){
+                users= users.Where(u=>u.Gender == userQueryParams.Gender);
+            }
+             if(userQueryParams.minAge != 18 || userQueryParams.maxAge != 100)
+            {
+                var today = DateTime.Now;
+                var min = today.AddYears(-(userQueryParams.maxAge+1));
+                var max = today.AddYears(-userQueryParams.minAge);
+
+                users = users.Where(i=>i.DateOfBirth>=min && i.DateOfBirth<=max);
+            }
+
+            if(!string.IsNullOrEmpty(userQueryParams.City)) 
+            {
+                users = users.Where(i=>i.City.ToLower()==userQueryParams.City.ToLower());
+            }
+
+            if(!string.IsNullOrEmpty(userQueryParams.Country)) 
+            {
+                users = users.Where(i=>i.Country.ToLower()==userQueryParams.Country.ToLower());
+            }
 
             var result = _mapper.Map<IEnumerable<UserForListDTO>>(users);
+            await Task.Delay(1000);
             return Ok(result);
         }
 

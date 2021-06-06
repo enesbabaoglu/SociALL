@@ -12,8 +12,10 @@ import { UserService } from '../../_services/user.service';
 })
 export class MemberListComponent implements OnInit {
 
-  
+  public loading = false;
+  userParams: any = {};
   followText! : string  ;
+
   constructor(private userService : UserService, private alertify : AlertifyService,private authService : AuthService) { }
   users! : User[];
   ngOnInit(): void {
@@ -22,9 +24,12 @@ export class MemberListComponent implements OnInit {
   }
 
   getUser(){
-    this.userService.getUsers().subscribe(users => {
+    this.loading=true;
+    this.userService.getUsers(null, this.userParams).subscribe(users => {
+      this.loading=false;
       this.users = users;
     },err =>{
+      this.loading=false;
       this.alertify.error(err);
     })
   }

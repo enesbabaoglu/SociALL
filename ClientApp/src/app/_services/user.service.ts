@@ -12,7 +12,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  getUsers(followParams?: any): Observable<User[]> {
+  getUsers(followParams?: any,userParams?: any): Observable<User[]> {
     debugger;
   
     let params = new HttpParams();
@@ -24,7 +24,18 @@ export class UserService {
     if(followParams === 'followings'){
       params = params.append('followings', 'true');
     }
-
+    if(userParams!=null) {
+      if(userParams.gender!=null) 
+          params = params.append('gender',userParams.gender);
+      if(userParams.minAge!=null) 
+          params = params.append('minAge',userParams.minAge);
+      if(userParams.maxAge!=null) 
+          params = params.append('maxAge',userParams.maxAge);
+      if(userParams.country!=null) 
+          params = params.append('country',userParams.country);
+      if(userParams.city!=null) 
+          params = params.append('city',userParams.city);
+  }
     return this.http.get<User[]>(this.baseUrl ,{params});
   }
   getUser(id: number): Observable<User> {
