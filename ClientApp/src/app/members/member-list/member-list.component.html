@@ -11,7 +11,8 @@
                         <form #form="ngForm" (ngSubmit)="getUser()">
                             <div class="form-row">
                                 <div class="col">
-                                    <select name="gender" [(ngModel)]="userParams.gender" class="custom-select custom-select-sm">
+                                    <select name="gender" [(ngModel)]="userParams.gender" class="custom-select custom-select-sm" required>
+                                        <option value="" selected disabled >Select a gender</option>
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
                                     </select>
